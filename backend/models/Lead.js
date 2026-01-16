@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const leadSchema = new mongoose.Schema({
   firstName: { type: String, required: true, trim: true },
   lastName: { type: String, required: true, trim: true },
-  email: { type: String, required: true, unique: true, lowercase: true, trim: true },
+  email: { type: String, required: true, lowercase: true, trim: true },
   phone: { type: String, trim: true },
   company: { type: String, trim: true },
   jobTitle: { type: String, trim: true },
@@ -23,10 +23,12 @@ const leadSchema = new mongoose.Schema({
   tags: [{ type: String }],
   lastContactDate: { type: Date }
 }, { 
-  timestamps: true 
+  timestamps: true,
+  autoIndex: false
 });
 
-leadSchema.index({ email: 1 });
+// Create indexes manually to avoid duplicates
+leadSchema.index({ email: 1 }, { unique: true });
 leadSchema.index({ createdAt: -1 });
 leadSchema.index({ leadStatus: 1 });
 
